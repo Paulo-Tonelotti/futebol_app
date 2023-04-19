@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { CreateUserController } from "../modules/aacounts/createUser/CreateUserCotnroller";
+import { CreateUserController } from "../modules/aacounts/useCases/createUser/CreateUserCotnroller";
 import { ensureAuthenticate } from "../middlewares/ensureAuthenticated";
 
 const usersRoutes = Router();
