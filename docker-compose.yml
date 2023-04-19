@@ -1,0 +1,29 @@
+version: '3.7'
+
+services:
+  db_fut:
+    image: postgres
+    container_name: db_fut
+    restart: always
+    ports:
+      - 5433:5432
+    environment:
+      - POSTGRES_USER=user_fut
+      - POSTGRES_PASSWORD=user_fut_password
+      - POSTGRES_DB=users_app
+    volumes:
+      - pgdata:/data/postgres
+  
+  app:
+    build: .
+    container_name: app_fut
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/usr/app
+    environment:
+      - DATABASE_URL=postgresql://user_fut:user_fut_password@db_fut:5432/users_app
+
+volumes:
+  pgdata:
+    driver: local
