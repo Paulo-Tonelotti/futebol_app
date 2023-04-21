@@ -4,7 +4,7 @@ import { sign } from "jsonwebtoken";
 import { IUsersRepository } from "../../repositories/IUsersRepository";
 
 interface IRequest {
-  name: string;
+  email: string;
   password: string;
 }
 
@@ -23,12 +23,12 @@ class AuthenticateUserUseCase {
     private usersRepository: IUsersRepository
   ) {}
 
-  async execute({ name, password }: IRequest): Promise<IResponse> {
+  async execute({ email, password }: IRequest): Promise<IResponse> {
 
-    const user = await this.usersRepository.findByName(name);
+    const user = await this.usersRepository.findByEmail(email);
 
     if(!user) {
-      throw new Error("Username or password incorrect");
+      throw new Error("Email or password incorrect");
     }
 
     const passwordMatch = await compare(password, user.password);

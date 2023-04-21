@@ -1,12 +1,13 @@
 import { Router } from "express";
-import { CreateUserController } from "../modules/aacounts/useCases/createUser/CreateUserCotnroller";
+import { CreateUserController } from "../modules/aacounts/useCases/createUser/CreateUserController";
 import { ensureAuthenticate } from "../middlewares/ensureAuthenticated";
+import { AddTeamUserController } from "../modules/user/useCases/AddTeamUserController";
 
 const usersRoutes = Router();
 
 const createUserController = new CreateUserController();
+const addTeamUserController = new AddTeamUserController();
 
-
-usersRoutes.post("/", createUserController.handle);
-
+usersRoutes.post("/users", createUserController.handle);
+usersRoutes.post("/users/addTeam",addTeamUserController.handle)
 export { usersRoutes };

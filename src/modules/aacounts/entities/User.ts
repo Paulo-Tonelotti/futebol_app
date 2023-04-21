@@ -10,6 +10,8 @@ class User {
 
   created_at: Date;
 
+  team?: string;
+
   constructor() {
     if(!this.id) [
       this.id = uuidv4()
