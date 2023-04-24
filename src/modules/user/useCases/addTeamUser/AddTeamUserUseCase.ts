@@ -13,15 +13,15 @@ class AddTeamUserUseCase {
 
   async execute(name: string, id: string): Promise<void> {
     const teamService = new TeamService();
-    const teamAlreadyExists = await this.teamsRepository.findTeam(name);
-
-    if (teamAlreadyExists) {
-      throw new Error(`Team ${name} already exists`);
-    }
-
     const team = await teamService.findTeamByName(name);
 
-    await this.usersRepository.saveTeam(id, team);
+    const teamUserRegistered = await this.teamsRepository.findTeamByIdUser(id);
+
+    if (teamUserRegistered != null) {
+      await this.teamsRepository.updateTeam(id, team);
+    } else {
+      await this.teamsRepository.saveTeam(id, team);
+    }
   }
 }
 
