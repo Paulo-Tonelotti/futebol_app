@@ -21,7 +21,7 @@ class AddTeamUserUseCase {
     }
 
     const team = await teamService.findTeamByName(name);
-    console.log(typeof team)
+
     await this.usersRepository.saveTeam(id, team);
   }
 
