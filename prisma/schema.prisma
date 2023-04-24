@@ -1,0 +1,33 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-1.1.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String     @id @default(uuid())
+  name       String
+  email      String
+  password   String
+  created_at DateTime   @default(now())
+  TeamUser   TeamUser[]
+
+  @@map("users")
+}
+
+model TeamUser {
+  id      String  @id
+  name    String
+  country String
+  user    User?   @relation(fields: [userId], references: [id])
+  userId  String? @unique
+
+  @@map("team_user")
+}
