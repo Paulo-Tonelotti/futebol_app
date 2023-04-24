@@ -1,7 +1,7 @@
 import { inject, injectable } from "tsyringe";
-import { UsersRepository } from "../../aacounts/repositories/implementations/UsersRepository";
-import { TeamsRepository } from "../../teams/repositories/implementations/TeamsRepository";
-import { TeamService } from "../../teams/services/TeamService";
+import { UsersRepository } from "../../repositories/implementations/UsersRepository"; 
+import { TeamsRepository } from "../../../teams/repositories/implementations/TeamsRepository";
+import { TeamService } from "../../../teams/services/TeamService";
 
 @injectable()
 class AddTeamUserUseCase {

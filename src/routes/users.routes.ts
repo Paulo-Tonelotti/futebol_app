@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { CreateUserController } from "../modules/aacounts/useCases/createUser/CreateUserController";
+import { CreateUserController } from "../modules/user/useCases/createUser/CreateUserController"; 
 import { ensureAuthenticate } from "../middlewares/ensureAuthenticated";
-import { AddTeamUserController } from "../modules/user/useCases/AddTeamUserController";
+import { AddTeamUserController } from "../modules/user/useCases/addTeamUser/AddTeamUserController";
 
 const usersRoutes = Router();
 
