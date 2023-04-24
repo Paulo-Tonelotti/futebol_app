@@ -37,9 +37,12 @@ class UsersRepository implements IUsersRepository {
   }
 
   async saveTeam(id:string, team: Team): Promise<void> {
-    await prismaClient.teamUser.create({
+    await prismaClient.teamUser.update({
+      where: {
+       userId: id
+      },
       data: {
-        id: team.id,
+        id: team.id.toString(),
         name: team.name,
         country: team.country,
         userId: id,

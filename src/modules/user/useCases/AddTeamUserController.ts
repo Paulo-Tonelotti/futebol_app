@@ -10,7 +10,7 @@ class AddTeamUserController {
 
     try{
       await addTeamUserUseCase.execute(name, id);
-      return response.status(200);
+      return response.status(200).send();
     } catch(err) {
       return response.status(400).json({ error: err.message });
     }

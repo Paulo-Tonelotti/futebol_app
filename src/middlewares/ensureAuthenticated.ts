@@ -12,7 +12,8 @@ export async function ensureAuthenticate(request: Request, response: Response, n
   const authHeader = request.headers.authorization;
 
   if(!authHeader) {
-    throw new Error("Token missing from request");
+    return response.status(401).json({ error: "Token missing from request"});
+    // throw new Error("Token missing from request");
   }
 
   const [, token] = authHeader.split(" ");
@@ -24,11 +25,13 @@ export async function ensureAuthenticate(request: Request, response: Response, n
     const user = usersRepository.findById(user_id);
 
     if(!user) {
-      throw new Error("User does not exist");
+      // throw new Error("User does not exist");
+      return response.status(401).json({ error: "User does not exist"});
     }
 
     next();
   } catch (error) {
-    throw new Error("Invalid token!");
+    // throw new Error("Invalid token!");
+    return response.status(401).json({ error: "Invalid token!"});
   }
 }

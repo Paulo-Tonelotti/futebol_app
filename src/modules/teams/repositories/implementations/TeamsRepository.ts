@@ -13,6 +13,7 @@ class TeamsRepository implements ITeamsRepository {
 
     return team;
   }
+
 }
 
 export { TeamsRepository };

@@ -9,7 +9,7 @@ export class TeamService {
       "method": "GET",
       "headers": {
         "x-rapidapi-host": "v3.football.api-sports.io",
-        "x-rapidapi-key": "5bed3d2a933f026c8bfd0b7befc69c69"
+        "x-rapidapi-key": "a4f8e92baab346efa89c7c26edbf56fe"
       }
     })
     .then(res => res.json())

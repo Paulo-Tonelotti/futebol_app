@@ -9,5 +9,6 @@ const createUserController = new CreateUserController();
 const addTeamUserController = new AddTeamUserController();
 
 usersRoutes.post("/users", createUserController.handle);
-usersRoutes.post("/users/addTeam",addTeamUserController.handle)
+usersRoutes.post("/users/addTeam", ensureAuthenticate, addTeamUserController.handle)
+
 export { usersRoutes };
