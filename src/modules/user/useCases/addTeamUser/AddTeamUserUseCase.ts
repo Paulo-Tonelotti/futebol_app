@@ -1,7 +1,6 @@
 import { inject, injectable } from "tsyringe";
-import { UsersRepository } from "../../repositories/implementations/UsersRepository";
 import { TeamsRepository } from "../../../teams/repositories/implementations/TeamsRepository";
-import { TeamService } from "../../../teams/services/TeamService";
+import { Team } from "../../../teams/entities/Team";
 
 @injectable()
 class AddTeamUserUseCase {
@@ -10,8 +9,7 @@ class AddTeamUserUseCase {
   ) {}
 
   async execute(name: string, id: string): Promise<void> {
-    const teamService = new TeamService();
-    const team = await teamService.findTeamByName(name);
+    const team = await this.findTeam(name);
 
     const teamUserRegistered = await this.teamsRepository.findTeamByIdUser(id);
 
@@ -19,6 +17,33 @@ class AddTeamUserUseCase {
       await this.teamsRepository.updateTeam(id, team);
     } else {
       await this.teamsRepository.saveTeam(id, team);
+    }
+  }
+
+  async findTeam(name: string): Promise<Team> {
+    const url = "https://v3.football.api-sports.io/teams?name";
+    try {
+      const result = await fetch(`${url}=${name}`, {
+        method: "GET",
+        headers: {
+          "x-rapidapi-host": "v3.football.api-sports.io",
+          "x-rapidapi-key": "a4f8e92baab346efa89c7c26edbf56fe",
+        },
+      })
+        .then((response) => response.json())
+        .then((json) => {
+          return json;
+        });
+
+      const team = new Team(
+        result.response[0].team.id,
+        result.response[0].team.name,
+        result.response[0].team.country
+      );
+
+      return team;
+    } catch (error) {
+      throw new Error(`Erro ao buscar time: ${error.message}`);
     }
   }
 }
