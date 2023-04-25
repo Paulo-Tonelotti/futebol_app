@@ -6,8 +6,6 @@ import { TeamService } from "../../../teams/services/TeamService";
 @injectable()
 class AddTeamUserUseCase {
   constructor(
-    @inject("UsersRepository")
-    private usersRepository: UsersRepository,
     @inject("TeamsRepository") private teamsRepository: TeamsRepository
   ) {}
 
