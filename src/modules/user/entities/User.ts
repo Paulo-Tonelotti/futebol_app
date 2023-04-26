@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-
+import { Team } from "../../teams/entities/Team";
 
 class User {
   id: string;
@@ -10,15 +10,11 @@ class User {
 
   created_at: Date;
 
-  team?: string;
+  team?: Team;
 
   constructor() {
-    if(!this.id) [
-      this.id = uuidv4()
-    ]
+    if (!this.id) [(this.id = uuidv4())];
   }
-
 }
-
 
 export { User };
