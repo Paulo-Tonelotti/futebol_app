@@ -3,6 +3,7 @@ import { compare } from "bcryptjs";
 import { sign } from "jsonwebtoken";
 import { IUsersRepository } from "../../repositories/IUsersRepository";
 import { ITeamsRepository } from "../../../teams/repositories/ITeamsRepository";
+import { Team } from "../../../teams/entities/Team";
 
 interface IRequest {
   email: string;
@@ -13,11 +14,7 @@ interface IResponse {
   user: {
     name: string;
   };
-  team: {
-    name: string;
-    country: string;
-    id: string;
-  };
+  team: Team;
   token: string;
 }
 
@@ -54,11 +51,7 @@ class AuthenticateUserUseCase {
       user: {
         name: user.name,
       },
-      team: {
-        name: team.name,
-        country: team.country,
-        id: team.id,
-      },
+      team,
     };
 
     return tokenReturn;

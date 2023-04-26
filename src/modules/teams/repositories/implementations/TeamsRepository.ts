@@ -1,5 +1,4 @@
 import prismaClient from "../../../../db";
-import { User } from "../../../user/entities/User";
 import { Team } from "../../entities/Team";
 import { ITeamsRepository } from "../ITeamsRepository";
 
@@ -32,6 +31,7 @@ class TeamsRepository implements ITeamsRepository {
         id: team.id.toString(),
         name: team.name,
         country: team.country,
+        logo: team.logo,
         userId: id,
       },
     });
@@ -43,6 +43,7 @@ class TeamsRepository implements ITeamsRepository {
         id: team.id.toString(),
         name: team.name,
         country: team.country,
+        logo: team.logo,
         userId: id,
       },
     });

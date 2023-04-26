@@ -38,7 +38,8 @@ class AddTeamUserUseCase {
       const team = new Team(
         result.response[0].team.id,
         result.response[0].team.name,
-        result.response[0].team.country
+        result.response[0].team.country,
+        result.response[0].team.logo
       );
 
       return team;

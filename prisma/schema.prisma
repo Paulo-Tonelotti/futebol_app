@@ -26,6 +26,7 @@ model TeamUser {
   id      String
   name    String
   country String
+  logo    String
   user    User?  @relation(fields: [userId], references: [id])
   userId  String @unique
 
