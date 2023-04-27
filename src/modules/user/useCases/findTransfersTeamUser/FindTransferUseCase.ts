@@ -13,19 +13,12 @@ class FindTransferUseCase {
     })
       .then((response) => response.json())
       .then((json) => {
-        let filter = [];
-        let data = json.response.map(
-          (element: { transfers: any }) => element.transfers
-        );
-        for (let i = 0; i < data.length; i++) {
-          for (let j = 0; j < data[i].length; j++) {
-            const ano = new Date(data[i][j].date).getFullYear();
-            if (ano.toString() === date) {
-              filter.push({ player: data[i].player, transfers: data[i][j] });
-            }
-          }
-        }
-        return filter;
+        const result = json.response.map((p: any) => {
+          player: p.player;
+          transfers: p.transfers;
+        });
+
+        return result;
       });
 
     return result;

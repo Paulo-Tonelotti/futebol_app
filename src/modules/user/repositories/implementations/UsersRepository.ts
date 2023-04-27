@@ -1,5 +1,4 @@
 import prismaClient from "../../../../db";
-import { Team } from "../../../teams/entities/Team";
 import { ICreateUserDTO } from "../../dtos/ICreateUserDTO";
 import { User } from "../../entities/User";
 import { IUsersRepository } from "../IUsersRepository";
