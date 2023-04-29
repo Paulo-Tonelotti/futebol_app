@@ -1,5 +1,10 @@
 import { injectable } from 'tsyringe';
 
+interface IObjectResponse {
+  player: object;
+  transfers: object;
+}
+
 @injectable()
 class FindTransferUseCase {
   async execute(date: string, teamId: string): Promise<any[]> {
@@ -27,7 +32,7 @@ class FindTransferUseCase {
       for (let j = 0; j < result[i].transfers.length; j++) {
         const ano = new Date(result[i].transfers[j].date).getFullYear();
         if (ano.toString() === date) {
-          const objResp = {
+          const objResp: IObjectResponse = {
             player: result[i].player,
             transfers: result[i].transfers[j],
           };
