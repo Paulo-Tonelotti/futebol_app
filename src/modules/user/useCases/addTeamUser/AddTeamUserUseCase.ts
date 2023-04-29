@@ -1,11 +1,11 @@
-import { inject, injectable } from "tsyringe";
-import { TeamsRepository } from "../../../teams/repositories/implementations/TeamsRepository";
-import { Team } from "../../../teams/entities/Team";
+import { inject, injectable } from 'tsyringe';
+import { TeamsRepository } from '../../../teams/repositories/implementations/TeamsRepository';
+import { Team } from '../../../teams/entities/Team';
 
 @injectable()
 class AddTeamUserUseCase {
   constructor(
-    @inject("TeamsRepository") private teamsRepository: TeamsRepository
+    @inject('TeamsRepository') private readonly teamsRepository: TeamsRepository
   ) {}
 
   async execute(name: string, id: string): Promise<void> {
@@ -21,16 +21,16 @@ class AddTeamUserUseCase {
   }
 
   async findTeam(name: string): Promise<Team> {
-    const url = "https://v3.football.api-sports.io/teams?name";
+    const url = 'https://v3.football.api-sports.io/teams?name';
     try {
       const result = await fetch(`${url}=${name}`, {
-        method: "GET",
+        method: 'GET',
         headers: {
-          "x-rapidapi-host": "v3.football.api-sports.io",
-          "x-rapidapi-key": "a4f8e92baab346efa89c7c26edbf56fe",
+          'x-rapidapi-host': 'v3.football.api-sports.io',
+          'x-rapidapi-key': 'a4f8e92baab346efa89c7c26edbf56fe',
         },
       })
-        .then((response) => response.json())
+        .then(async (response) => await response.json())
         .then((json) => {
           return json;
         });
@@ -44,7 +44,7 @@ class AddTeamUserUseCase {
 
       return team;
     } catch (error) {
-      throw new Error(`Erro ao buscar time: ${error.message}`);
+      throw new Error('Erro ao buscar time');
     }
   }
 }
