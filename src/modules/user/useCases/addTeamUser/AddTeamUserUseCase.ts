@@ -1,22 +1,28 @@
 import { inject, injectable } from 'tsyringe';
-import { TeamsRepository } from '../../../teams/repositories/implementations/TeamsRepository';
 import { Team } from '../../../teams/entities/Team';
+import { IUsersRepository } from '../../repositories/IUsersRepository';
+import { ITeamsRepository } from '../../../teams/repositories/ITeamsRepository';
 
 @injectable()
 class AddTeamUserUseCase {
   constructor(
-    @inject('TeamsRepository') private readonly teamsRepository: TeamsRepository
+    @inject('UsersRepository') private usersRepository: IUsersRepository,
+    @inject('TeamsRepository') private teamsRepository: ITeamsRepository
   ) {}
 
   async execute(name: string, id: string): Promise<void> {
     const team = await this.findTeam(name);
+    const user = await this.usersRepository.findById(id);
 
-    const teamUserRegistered = await this.teamsRepository.findTeamByIdUser(id);
+    const teamAlreadyExists = await this.teamsRepository.findTeam(
+      team.id.toString()
+    );
 
-    if (teamUserRegistered != null) {
-      await this.teamsRepository.updateTeam(id, team);
+    if (teamAlreadyExists) {
+      await this.usersRepository.updateTeam(teamAlreadyExists.id, user.id);
     } else {
-      await this.teamsRepository.saveTeam(id, team);
+      await this.teamsRepository.saveTeam(team);
+      await this.usersRepository.updateTeam(team.id.toString(), user.id);
     }
   }
 

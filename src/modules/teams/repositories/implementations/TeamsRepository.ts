@@ -1,53 +1,31 @@
 import prismaClient from '../../../../db';
+import { League } from '../../entities/League';
 import { Team } from '../../entities/Team';
 import { ITeamsRepository } from '../ITeamsRepository';
 
 class TeamsRepository implements ITeamsRepository {
-  async findTeam(name: string): Promise<Team> {
-    const team: Team = await prismaClient.teamUser.findFirst({
+  async findTeam(id: string): Promise<Team> {
+    const team: Team | undefined = await prismaClient.teamUser.findFirst({
       where: {
-        name,
+        id,
       },
     });
 
     return team;
   }
 
-  async findTeamByIdUser(id: string): Promise<Team> {
-    const team = await prismaClient.teamUser.findFirst({
-      where: {
-        userId: id,
-      },
-    });
-    return team;
-  }
-
-  async updateTeam(id: string, team: Team): Promise<void> {
-    await prismaClient.teamUser.update({
-      where: {
-        userId: id,
-      },
-      data: {
-        id: team.id.toString(),
-        name: team.name,
-        country: team.country,
-        logo: team.logo,
-        userId: id,
-      },
-    });
-  }
-
-  async saveTeam(id: string, team: Team): Promise<void> {
+  async saveTeam(team: Team): Promise<void> {
     await prismaClient.teamUser.create({
       data: {
         id: team.id.toString(),
         name: team.name,
         country: team.country,
         logo: team.logo,
-        userId: id,
       },
     });
   }
+
+  async saveLeague(team_id: string, league: League): Promise<void> {}
 }
 
 export { TeamsRepository };

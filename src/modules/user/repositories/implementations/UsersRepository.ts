@@ -33,6 +33,17 @@ class UsersRepository implements IUsersRepository {
 
     return user;
   }
+
+  async updateTeam(id: string, id_user: string): Promise<void> {
+    await prismaClient.user.update({
+      where: {
+        id: id_user,
+      },
+      data: {
+        team_id: id,
+      },
+    });
+  }
 }
 
 export { UsersRepository };
