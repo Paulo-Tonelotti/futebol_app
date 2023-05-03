@@ -1,6 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 import { ITeamsRepository } from '../../../teams/repositories/ITeamsRepository';
-import { League } from '../../../teams/entities/League';
+import { League } from '../../../leagues/entities/League';
 
 @injectable()
 class AddLeagueUseCase {
@@ -10,11 +10,23 @@ class AddLeagueUseCase {
   ) {}
 
   async execute(team_id: string): Promise<void> {
-    await this.teamsRepository.saveLeague(team_id);
+    const league = await this.findLeague(team_id);
+    const leagueAlreadyRegistered = await this.teamsRepository.findLeague(
+      league.id.toString()
+    );
+    if (leagueAlreadyRegistered) {
+      await this.teamsRepository.updateLeagueTeam(
+        team_id,
+        leagueAlreadyRegistered.id
+      );
+    } else {
+      await this.teamsRepository.saveLeague(league);
+      await this.teamsRepository.updateLeagueTeam(team_id, league.id);
+    }
   }
 
   async findLeague(team_id: string): Promise<League> {
-    const url = 'https://v3.football.api-sports.io/leagues?team=';
+    const url = 'https://v3.football.api-sports.io/leagues?team';
     try {
       const result = await fetch(`${url}=${team_id}`, {
         method: 'GET',
@@ -27,6 +39,8 @@ class AddLeagueUseCase {
         .then((json) => {
           return json;
         });
+
+      console.log(result.response[0].league.id);
 
       const league = new League(
         result.response[0].league.id,
