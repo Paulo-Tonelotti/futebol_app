@@ -4,14 +4,15 @@ import { User } from '../../entities/User';
 import { IUsersRepository } from '../IUsersRepository';
 
 class UsersRepository implements IUsersRepository {
-  async create({ name, password, email }: ICreateUserDTO): Promise<void> {
-    await prismaClient.user.create({
+  async create({ name, password, email }: ICreateUserDTO): Promise<User> {
+    const user = await prismaClient.user.create({
       data: {
         name,
         email,
         password,
       },
     });
+    return user;
   }
 
   async findById(id: string): Promise<User> {

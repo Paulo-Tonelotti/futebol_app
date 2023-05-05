@@ -3,6 +3,13 @@ import { hash } from 'bcryptjs';
 import { ICreateUserDTO } from '../../dtos/ICreateUserDTO';
 import { IUsersRepository } from '../../repositories/IUsersRepository';
 
+interface IResponseUserCreated {
+  user: {
+    id: string;
+    name: string;
+  };
+}
+
 @injectable()
 class CreateUserUseCase {
   constructor(
@@ -10,7 +17,11 @@ class CreateUserUseCase {
     private usersRepository: IUsersRepository
   ) {}
 
-  async execute({ email, password, name }: ICreateUserDTO): Promise<void> {
+  async execute({
+    email,
+    password,
+    name,
+  }: ICreateUserDTO): Promise<IResponseUserCreated> {
     const userAlreadyExists = await this.usersRepository.findByEmail(email);
 
     if (userAlreadyExists) {
@@ -19,11 +30,20 @@ class CreateUserUseCase {
 
     const passwordHash = await hash(password, 8);
 
-    await this.usersRepository.create({
+    const userCreated = await this.usersRepository.create({
       email,
       password: passwordHash,
       name,
     });
+
+    const userResponse: IResponseUserCreated = {
+      user: {
+        id: userCreated.id,
+        name: userCreated.name,
+      },
+    };
+
+    return userResponse;
   }
 }
 
